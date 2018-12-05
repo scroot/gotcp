@@ -48,15 +48,15 @@ func (s *Server) Start(listener *net.TCPListener, acceptTimeout time.Duration) {
 
 		listener.SetDeadline(time.Now().Add(acceptTimeout))
 
+		// wait for client conn
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			continue
+			return
 		}
 
-		s.waitGroup.Add(1)
 		go func() {
+			s.waitGroup.Add(1)
 			newConn(conn, s).Do()
-			s.waitGroup.Done()
 		}()
 	}
 }
