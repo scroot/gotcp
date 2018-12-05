@@ -121,6 +121,8 @@ func (c *Conn) AsyncWritePacket(p Packet, timeout time.Duration) (err error) {
 
 // Do it
 func (c *Conn) Do() {
+	defer c.srv.waitGroup.Done()
+
 	if !c.srv.callback.OnConnect(c) {
 		return
 	}
