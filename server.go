@@ -46,12 +46,13 @@ func (s *Server) Start(listener *net.TCPListener, acceptTimeout time.Duration) {
 		default:
 		}
 
-		//listener.SetDeadline(time.Now().Add(acceptTimeout))
+		listener.SetDeadline(time.Now().Add(acceptTimeout))
 
 		// wait for client conn
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			return //exit
+			continue
+			//return //exit
 		}
 
 		go func() {
